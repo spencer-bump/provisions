@@ -8,24 +8,32 @@ const ListProvisions = ({provisions}) => {
         <thead>
           <tr>
             <th>Select</th>
-            <th>Quantity</th>
             <th>Name</th>
             <th>Price</th>
             <th>Store</th>
+            <th>Edit</th>
           </tr>
         </thead>
         <tbody>
           {provisions.map(provision => {
             return (
-              <tr>
-                <td><div
-                      className="ui button"
-                      onClick={() => console.log(provision.name)}
-                      >Select</div></td>
-                <td>{provision.quantity}</td>
-                <td>{provision.name}</td>
+              <tr key={provision.id}>
+                <td>
+                  <div
+                    className="ui button primary"
+                    onClick={() => console.log(provision.name)}
+                    >
+                    Select
+                  </div>
+                </td>
+                <td style={{highlight: "bold"}}>{provision.name}</td>
                 <td>${provision.price}</td>
                 <td>{provision.store}</td>
+                <td>
+                  <div onClick={() => console.log(provision.price)}>
+                    <i className="pencil alternate icon"></i>
+                  </div>
+                </td>
               </tr>
             );
           })}
