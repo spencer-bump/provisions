@@ -1,0 +1,2 @@
+export const ADD_PROVISION = 'ADD_PROVISION';
+export const GET_PROVISIONS = 'GET_PROVISIONS';
