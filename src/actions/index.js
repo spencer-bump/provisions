@@ -18,9 +18,10 @@ export const getProvisions = () => {
   }
 }
 
-export const signIn = () => {
+export const signIn = userId => {
   return {
-    type: SIGN_IN
+    type: SIGN_IN,
+    payload: userId
   };
 }
 
