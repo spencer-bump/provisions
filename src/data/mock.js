@@ -8,35 +8,35 @@ const initialProvisions = [
     },
     {
       id: 2,
-      name: "bread flour",
-      price: 25.00,
+      name: "cat litter",
+      price: 15.00,
       selected: true,
       store: "Costco"
     },
     {
       id: 3,
-      name: "bread flour",
-      price: 25.00,
+      name: "granola",
+      price: 10.00,
       selected: true,
       store: "Costco"
     },
     {
       id: 4,
-      name: "bread flour",
-      price: 25.00,
+      name: "toilet papaer",
+      price: 150.00,
       selected: false,
       store: "Costco"
     },
     {
       id: 5,
-      name: "bread flour",
-      price: 25.00,
+      name: "soy milk",
+      price: 15.00,
       selected: false,
       store: "Costco"
     },{
       id: 6,
-      name: "bread flour",
-      price: 25.00,
+      name: "peanut butter",
+      price: 15.00,
       selected: false,
       store: "Costco"
     }

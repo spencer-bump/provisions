@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const ListProvisions = ({provisions}) => {
+const ProvisionList = ({provisions}) => {
 
   return (
     <div>
@@ -17,7 +17,7 @@ const ListProvisions = ({provisions}) => {
           </tr>
         </thead>
         <tbody>
-          {provisions.filter(provision => !provision.selected ).map(provision => {
+          {provisions.filter(provision => provision.selected ).map(provision => {
             return (
               <tr key={provision.id}>
                 <td>
@@ -43,7 +43,7 @@ const ListProvisions = ({provisions}) => {
           })}
         </tbody>
         <tbody>
-          {provisions.filter(provision => provision.selected ).map(provision => {
+          {provisions.filter(provision => !provision.selected ).map(provision => {
             return (
               <tr key={provision.id}>
                 <td>
@@ -74,4 +74,4 @@ const ListProvisions = ({provisions}) => {
 }
 
 
-export default ListProvisions;
+export default ProvisionList;
