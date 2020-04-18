@@ -15,7 +15,7 @@ const ProvisionCreate = () => {
             <option value="3">Costco</option>
             <option value="2">Down To Earth</option>
             <option value="1">Whole Foods</option>
-            <option value="0">Any</option>
+            <option value="0">DTE or Whole Foods</option>
           </select>
         );
     } else {

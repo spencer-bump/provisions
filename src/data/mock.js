@@ -10,7 +10,7 @@ const initialProvisions = [
       id: 2,
       name: "cat litter",
       price: 15.00,
-      selected: true,
+      selected: false,
       store: "Costco"
     },
     {
@@ -31,7 +31,7 @@ const initialProvisions = [
       id: 5,
       name: "soy milk",
       price: 15.00,
-      selected: false,
+      selected: true,
       store: "Costco"
     },{
       id: 6,
