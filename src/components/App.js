@@ -19,7 +19,7 @@ import initialProvisions from '../data/mock';
 
 const App = () => {
 
-  const [provisions, setProvisions] = useState(initialProvisions);
+  const [provisions, setProvisions] = useState(initialProvisions.provisions);
 
   return (
     <div className="ui container" >

@@ -1,52 +1,116 @@
 import React from 'react';
-import mock from '../../data/mock';
 import { Field, reduxForm } from 'redux-form';
+import { Input, Dropdown, Button } from 'semantic-ui-react';
 import './ProvisionCreate.css';
 
-const ProvisionCreate = () => {
+import mock from '../../data/mock';
 
-  const provision_keys = Object.keys(mock[0]).filter(key => key !== "id" && key !== "selected");
+class ProvisionCreate extends React.Component {
 
-  const renderInput = key => {
+  state = {
+
+    provision_keys: Object.keys(mock.provisions[0]).filter(key => key !== "id" && key !== "selected"),
+    storeOptions: [
+        {
+          key: 'Costco',
+          text: 'Costco',
+          value: "Costco"
+        },
+        {
+          key: 'Down To Earth',
+          text: 'Down To Earth',
+          value: "Down To Earth"
+        },
+        {
+          key: 'Whole Foods',
+          text: 'Whole Foods',
+          value: "Whole Foods"
+        },
+        {
+          key: 'DTE or Whole Foods',
+          text: 'DTE or Whole Foods',
+          value: "DTE or Whole Foods"
+        }
+      ],
+      mock: mock
+
+  }
+
+
+  renderInput = key => {
+    const renderInputTag = ({ input }) => {
+      return (
+          <div>
+            <Input
+              {...input}
+              label={`${key}`}
+              className="my-input"
+              placeholder={`${key}`}
+            />
+          </div>
+        );
+    }
+
+    const renderDropdown = ({ input }) => {
+      return (
+        <Dropdown
+          {...input}
+          label={`${key}`}
+          className="my-input"
+          placeholder='Select Store'
+          fluid
+          selection
+          options={this.state.storeOptions}
+          />
+      );
+    }
+
     if (key === "store") {
       return (
-          <select className="ui item dropdown my-input">
-            <option value="">store</option>
-            <option value="3">Costco</option>
-            <option value="2">Down To Earth</option>
-            <option value="1">Whole Foods</option>
-            <option value="0">DTE or Whole Foods</option>
-          </select>
+          <Field
+            name={`${key}`}
+            component={renderDropdown}
+          />
         );
     } else {
-      return <input type="text" placeholder={`${key}`} name={`${key}`} ></input>
+      return (
+          <Field
+            name={`${key}`}
+            component={renderInputTag}
+          />
+        );
     }
   }
 
-  const handleSubmit = (e) => {
+  handleSubmit = (e) => {
     e.preventDefault();
+    // TODO handle form submit
     console.log('submit form values');
-    // add to mockdata state value
-
   }
 
-  return (
-    <div className="my-container">
-      <form onSubmit={handleSubmit} className="form-container">
-      {provision_keys.map(key => {
-        return (
-            <div key={key}>
-              <div className="ui input my-input" >
-                {renderInput(key)}
-              </div>
-            </div>
-          )
-      })}
-      <button className="ui button primary my-input" type="submit" >Add Grocery Item</button>
-      </form>
-    </div>
-
-  );
+  render () {
+    return (
+      <div className="my-container">
+        <form onSubmit={this.handleSubmit} className="form-container">
+          {this.state.provision_keys.map(key => {
+            return (
+                <div key={key}>
+                    {this.renderInput(key)}
+                </div>
+              )
+          })}
+          <Button
+            className="primary my-input"
+            type="submit">
+            Submit
+          </Button>
+        </form>
+      </div>
+    );
+  }
 }
 
-export default ProvisionCreate;
+export default reduxForm({
+  form: 'provisionCreate'
+})(ProvisionCreate);
+
