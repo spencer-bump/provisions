@@ -7,8 +7,8 @@ import { fetchProvisions } from '../../actions';
 
 const StoreList = ({ store, provisions, currentUserId, isSignedIn }) => {
 
-  const renderAdmin = (provision) => {
-    if (provision.userId === currentUserId) {
+  const renderEdit = (provision) => {
+    if (provision.userId === currentUserId && isSignedIn) {
       return (
         <div className="right floated content">
           <Link to={`/provision/edit/${provision.id}`} >
@@ -22,6 +22,7 @@ const StoreList = ({ store, provisions, currentUserId, isSignedIn }) => {
   }
 
   const renderSelect = provision => {
+    console.log("TODO - wire up 'selected'")
     return (
       <div className="left floated content">
         <button className="ui button">Select</button>
@@ -33,9 +34,9 @@ const StoreList = ({ store, provisions, currentUserId, isSignedIn }) => {
     return (
         provisions.map(provision => {
           return (
-            <div key={provision.id} className="item">
+            <div className="item" key={provision.id} >
               {renderSelect(provision)}
-              {renderAdmin(provision)}
+              {renderEdit(provision)}
               <div className="content">
                 {provision.name}
                 <div className="description">{provision.price}</div>
@@ -47,23 +48,28 @@ const StoreList = ({ store, provisions, currentUserId, isSignedIn }) => {
       )
   }
 
+  const renderAddProvision = () => {
+    if (isSignedIn) {
+      return (
+        <div className="right menu">
+          <Link to="/provision/new" className="ui button small basic" >
+            Add Item
+          </Link>
+        </div>
+      );
+    }
+  }
+
   const renderSubHeader = () => {
     return (
       <div className="ui secondary pointing menu" >
         <div className="item" >
           {store}
         </div>
-        <div className="right menu">
-          <Link to="/provision/new" className="item" >
-            Add Grocery Item
-          </Link>
-        </div>
+        {renderAddProvision()}
       </div>
     );
   }
-
-
-
 
   return (
       <div>
@@ -80,20 +86,21 @@ const StoreList = ({ store, provisions, currentUserId, isSignedIn }) => {
 class ProvisionList extends React.Component {
     stores = [{name: "Costco"}, {name: "Down to Earth"}, {name: "Whole Foods"}];
 
-    panes = [
-                  { menuItem: 'Costco', render: () => <Tab.Pane><StoreList store="Costco" provisions={this.props.provisions} currentUserId={this.props.currentUserId} isSignedIn={this.props.isSignedIn} /></Tab.Pane> },
-                  { menuItem: 'Down to Earth', render: () => <Tab.Pane><StoreList store="Down to Earth" provisions={this.props.provisions} currentUserId={this.props.currentUserId} isSignedIn={this.props.isSignedIn} /></Tab.Pane> },
-                  { menuItem: 'Whole Foods', render: () => <Tab.Pane><StoreList store="Whole Foods" provisions={this.props.provisions} currentUserId={this.props.currentUserId} isSignedIn={this.props.isSignedIn} /></Tab.Pane> },
-                ];
-
-
-  // console.log(panes);
-
+    panes = this.stores.map(store => {
+      return (
+          { menuItem: store.name, render: () =>
+              <Tab.Pane>
+                <StoreList
+                  store={store.name}
+                  provisions={this.props.provisions.filter(provision => provision.userId)}
+                  currentUserId={this.props.currentUserId}
+                  isSignedIn={this.props.isSignedIn} />
+              </Tab.Pane>
+          }
+        )
+      });
 
             // TODO:
-            // 1)  List by store -
-            //     Add tab of lists by store,
-            //     map thru stores selected
             // 2)  Buttons: Select, To Cart
             // 3)  View Cart modal, showing list
             //     at checkout with total price
@@ -101,8 +108,6 @@ class ProvisionList extends React.Component {
   componentDidMount() {
     this.props.fetchProvisions();
   }
-
-
 
   render () {
     console.log("this.props: ", this.props);

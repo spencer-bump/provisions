@@ -89,8 +89,6 @@ class ProvisionCreate extends React.Component {
   }
 
   onSubmit = formValues => {
-    // TODO handle form submit
-    console.log('submit form values', formValues);
     this.props.createProvision(formValues);
   }
 
