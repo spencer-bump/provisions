@@ -16,3 +16,8 @@
 .my-button {
   width: 100%;
 }
+
+.my-error {
+  width: 100%;
+  padding-bottom: 20px;
+}

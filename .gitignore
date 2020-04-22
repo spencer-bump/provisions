@@ -6,6 +6,8 @@
 .pnp.js
 /src/env.js
 env.js
+/src/reducers/unusedReducer.js
+unusedReducer.js
 
 # testing
 /coverage

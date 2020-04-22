@@ -29,7 +29,7 @@ const App = () => {
           <Switch>
             <Route
               path="/"  exact
-              component={() => <ProvisionList provisions={provisions} />} />
+              component={() => <ProvisionList  />} />
             <Route
               path="/provision/new"
               component={ProvisionCreate} />

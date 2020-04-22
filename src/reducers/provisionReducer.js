@@ -1,15 +1,28 @@
+import _ from 'lodash';
 import {
-  ADD_PROVISION,
-  GET_PROVISIONS
+  CREATE_PROVISION,
+  FETCH_PROVISIONS,
+  FETCH_PROVISION,
+  DELETE_PROVISION,
+  EDIT_PROVISION
    } from '../actions/types';
 
-export default (state = ["feed the cats"], action) => {
+// each case returns a new state object
+export default (state= {}, action) => {
   switch (action.type) {
-    case ADD_PROVISION:
-      return { ...state, action }
-    case GET_PROVISIONS:
-      return { state }
+    case FETCH_PROVISIONS:
+      return { ...state, ..._.mapKeys(action.payload, 'id') };
+    case FETCH_PROVISION:
+      return { ...state, [action.payload.id]: action.payload };
+    case CREATE_PROVISION:
+      return { ...state, [action.payload.id]: action.payload };
+    case EDIT_PROVISION:
+      return { ...state, [action.payload.id]: action.payload };
+
+    case DELETE_PROVISION:
+      return _.omit(state, action.payload);
     default:
       return state;
   }
 }
+

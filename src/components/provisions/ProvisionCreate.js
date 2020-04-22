@@ -1,6 +1,8 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Input, Dropdown, Button } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { createProvision } from '../../actions';
 import './ProvisionCreate.css';
 
 import mock from '../../data/mock';
@@ -8,7 +10,6 @@ import mock from '../../data/mock';
 class ProvisionCreate extends React.Component {
 
   state = {
-
     provision_keys: Object.keys(mock.provisions[0]).filter(key => key !== "id" && key !== "selected"),
     storeOptions: [
         {
@@ -33,84 +34,116 @@ class ProvisionCreate extends React.Component {
         }
       ],
       mock: mock
-
   }
 
-
-  renderInput = key => {
-    const renderInputTag = ({ input }) => {
+  renderError = ({ error, touched }) => {
+    if (touched && error) {
       return (
-          <div>
-            <Input
-              {...input}
-              label={`${key}`}
-              className="my-input"
-              placeholder={`${key}`}
-            />
+          <div className="ui error small message my-error" >
+            <div className="header" >
+              {error}
+            </div>
           </div>
         );
     }
+  }
 
-    const renderDropdown = ({ input }) => {
-      return (
-        <Dropdown
-          {...input}
-          label={`${key}`}
-          className="my-input"
-          placeholder='Select Store'
-          fluid
-          selection
-          options={this.state.storeOptions}
+
+  renderNameInput = ({ input, label, meta }) => {
+    const inputClassName = `ui input my-input field ${meta.error && meta.touched ? 'error' : ''}`
+    const placeholder = meta.error && meta.touched ? `${meta.error}` : `${label}`
+    const labelClassName = meta.error && meta.touched ? 'ui red basic label' : "ui  label"
+    return (
+      <div>
+        <div className={inputClassName}>
+          <div className={labelClassName}>{label}</div>
+          <input
+            {...input}
+            label={label}
+            placeholder={placeholder}
+            autoComplete="off"
           />
+        </div>
+      </div>
       );
-    }
-
-    if (key === "store") {
-      return (
-          <Field
-            name={`${key}`}
-            component={renderDropdown}
-          />
-        );
-    } else {
-      return (
-          <Field
-            name={`${key}`}
-            component={renderInputTag}
-          />
-        );
-    }
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
+  renderPriceInput = ({ input, label, meta }) => {
+    const inputClassName = `ui input my-input field ${meta.error && meta.touched ? 'error' : ''}`
+    const placeholder = meta.error && meta.touched ? `${meta.error}` : `${label}`
+    const labelClassName = meta.error && meta.touched ? 'ui red basic label' : "ui  label"
+    return (
+      <div>
+        <div className={inputClassName}>
+          <div className={labelClassName}>{label}</div>
+          <input
+            {...input}
+            label={label}
+            placeholder={placeholder}
+            autoComplete="off"
+          />
+        </div>
+        {this.renderError(meta)}
+      </div>
+      );
+  }
+
+  onSubmit = formValues => {
     // TODO handle form submit
-    console.log('submit form values');
+    console.log('submit form values', formValues);
+    this.props.createProvision(formValues);
   }
+
+
 
   render () {
+    console.log("props: ", this.props)
     return (
       <div className="my-container">
-        <form onSubmit={this.handleSubmit} className="form-container">
-          {this.state.provision_keys.map(key => {
-            return (
-                <div key={key}>
-                    {this.renderInput(key)}
-                </div>
-              )
-          })}
-          <Button
-            className="primary my-input"
-            type="submit">
-            Submit
-          </Button>
+        {/*using redux-form props.handleSubmit - sends fromValues*/}
+        <form onSubmit={this.props.handleSubmit(this.onSubmit)} className="form-container">
+          <Field
+            name="name"
+            label="Name"
+            component={this.renderNameInput}
+          />
+          <Field
+            name="price"
+            label="Price"
+            component={this.renderPriceInput}
+          />
+      {/*    <Field
+            name=""
+            label=""
+            component={this.renderInput}
+          />*/}
+          <Button className="primary my-button">Submit</Button>
+
         </form>
       </div>
     );
   }
 }
 
-export default reduxForm({
-  form: 'provisionCreate'
+const validate = formValues => {
+  const errors = {};
+  if (!formValues.name) {
+    errors.name = "You must enter a name";
+  }
+  if (formValues.price) {
+    if (isNaN(formValues.price)) {
+      errors.price = "Price must be a number.";
+    }
+  }
+  return errors;
+}
+
+const formWrapped = reduxForm({
+  form: 'provisionCreate',
+  validate: validate
 })(ProvisionCreate);
 
+export default connect(
+  null,
+  { createProvision }
+)(formWrapped);
