@@ -8,18 +8,16 @@ import ProvisionDelete  from './provisions/ProvisionDelete';
 
 import Header from './Header';
 import history from '../history';
-import initialProvisions from '../data/mock';
 
 {/*
-  // C create       "/provision/new"
-  // R retrieve     "/"
-  // U update       "/provision/edit/:id"
-  // D delete       "/provision/delete/:id"
+  // POST   create  "/provision/new"
+  // GET    list    "/"
+  // GET    show    "/provision/show/:id"
+  // PUT    update  "/provision/edit/:id"
+  // DELETE delete  "/provision/delete/:id"
 */}
 
 const App = () => {
-
-  const [provisions, setProvisions] = useState(initialProvisions.provisions);
 
   return (
     <div className="ui container" >
