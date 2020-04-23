@@ -1,4 +1,5 @@
 import mockdb from '../apis/mockdb';
+import history from '../history';
 import {
     CREATE_PROVISION,
     FETCH_PROVISIONS,
@@ -9,6 +10,7 @@ import {
     SIGN_OUT
   } from './types';
 
+// long hand form of the following short hand...
 // export const createProvision = (formValues) => {
 //   return (dispatch) => {
 
@@ -19,6 +21,7 @@ export const createProvision = formValues => async (dispatch, getState) => {
   const response = await mockdb.post('/provisions', { ...formValues, userId });
 
   dispatch({ type: CREATE_PROVISION, payload: response.data });
+  history.push('/');
 };
 
 export const fetchProvisions = () => async dispatch => {

@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 
-import ProvisionCreate  from './provisions/ProvisionCreate';
-import ProvisionList    from './provisions/ProvisionList';
-import ProvisionEdit    from './provisions/ProvisionEdit';
-import ProvisionDelete  from './provisions/ProvisionDelete';
+import ProvisionCreate    from './provisions/ProvisionCreate';
+import ProvisionStoreTabs from './provisions/ProvisionStoreTabs';
+import ProvisionEdit      from './provisions/ProvisionEdit';
+import ProvisionDelete    from './provisions/ProvisionDelete';
 
 import Header from './Header';
 import history from '../history';
 
 {/*
+  // URL-based selection - passing :id
   // POST   create  "/provision/new"
   // GET    list    "/"
-  // GET    show    "/provision/show/:id"
+  // GET    show    "/provision/:id"
   // PUT    update  "/provision/edit/:id"
   // DELETE delete  "/provision/delete/:id"
 */}
@@ -27,7 +28,7 @@ const App = () => {
           <Switch>
             <Route
               path="/"  exact
-              component={() => <ProvisionList  />} />
+              component={() => <ProvisionStoreTabs  />} />
             <Route
               path="/provision/new"
               component={ProvisionCreate} />

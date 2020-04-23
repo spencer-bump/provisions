@@ -1,18 +1,34 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { connect } from 'react-redux'
+import { fetchProvision } from '../../actions';
 
 class ProvisionEdit extends React.Component {
+    // match.params carry wildcards !!!
+    componentDidMount() {
+      this.props.fetchProvision(this.props.match.params.id)
+    }
+    render () {
+      console.log("props: ", this.props)
+      if (!this.props.provision) {
+        return <div>Loading...</div>
+      } else {
+        return (
+          <div>
+            <div>Edit Provision: {this.props.provision.name  } </div>
+          </div>
+        );
+      }
 
-  render () {
-    return (
-      <div>
-        <div>Edit Provision: {this.props.match.params.id  } </div>
-        <Link to={`/provision/delete/${this.props.match.params.id}`} >
-          <i className="trash alternate outline icon"></i>
-        </Link>
-      </div>
-    );
-  }
+    }
+
 };
 
-export default ProvisionEdit;
+const mapStateToProps = (state, ownProps) => {
+  console.log("ownProps: ", ownProps)
+  return { provision: state.provisions[ownProps.match.params.id] };
+}
+
+export default connect(
+  mapStateToProps,
+  { fetchProvision }
+)(ProvisionEdit);

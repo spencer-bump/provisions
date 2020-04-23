@@ -1,19 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Tab } from 'semantic-ui-react';
-import { connect } from 'react-redux'
-import { fetchProvisions } from '../../actions';
 
+const ProvisionList = ({ store, provisions, currentUserId, isSignedIn }) => {
 
-const StoreList = ({ store, provisions, currentUserId, isSignedIn }) => {
-
-  const renderEdit = (provision) => {
+  const renderAdmin = (provision) => {
     if (provision.userId === currentUserId && isSignedIn) {
       return (
         <div className="right floated content">
           <Link to={`/provision/edit/${provision.id}`} >
             <div className="ui button basic" >
               <i className="pencil alternate icon"></i>
+            </div>
+          </Link>
+          <Link to={`/provision/delete/${provision.id}`} >
+            <div className="ui button basic" >
+              <i className="trash alternate outline icon"></i>
             </div>
           </Link>
         </div>
@@ -36,7 +37,7 @@ const StoreList = ({ store, provisions, currentUserId, isSignedIn }) => {
           return (
             <div className="item" key={provision.id} >
               {renderSelect(provision)}
-              {renderEdit(provision)}
+              {renderAdmin(provision)}
               <div className="content">
                 {provision.name}
                 <div className="description">{provision.price}</div>
@@ -81,54 +82,4 @@ const StoreList = ({ store, provisions, currentUserId, isSignedIn }) => {
     )
 }
 
-
-
-class ProvisionList extends React.Component {
-    stores = [{name: "Costco"}, {name: "Down to Earth"}, {name: "Whole Foods"}];
-
-    panes = this.stores.map(store => {
-      return (
-          { menuItem: store.name, render: () =>
-              <Tab.Pane>
-                <StoreList
-                  store={store.name}
-                  provisions={this.props.provisions.filter(provision => provision.userId)}
-                  currentUserId={this.props.currentUserId}
-                  isSignedIn={this.props.isSignedIn} />
-              </Tab.Pane>
-          }
-        )
-      });
-
-            // TODO:
-            // 2)  Buttons: Select, To Cart
-            // 3)  View Cart modal, showing list
-            //     at checkout with total price
-
-  componentDidMount() {
-    this.props.fetchProvisions();
-  }
-
-  render () {
-    console.log("this.props: ", this.props);
-    return (
-      <div>
-        <h3>Grocery List</h3>
-        <Tab panes={this.panes} />
-      </div>
-      );
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    provisions: Object.values(state.provisions),
-    currentUserId: state.auth.userId,
-    isSignedIn: state.auth.isSignedIn
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  { fetchProvisions }
-)(ProvisionList);
+export default ProvisionList;
