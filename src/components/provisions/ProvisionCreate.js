@@ -9,33 +9,6 @@ import mock from '../../data/mock';
 
 class ProvisionCreate extends React.Component {
 
-  state = {
-    provision_keys: Object.keys(mock.provisions[0]).filter(key => key !== "id" && key !== "selected"),
-    storeOptions: [
-        {
-          key: 'Costco',
-          text: 'Costco',
-          value: "Costco"
-        },
-        {
-          key: 'Down To Earth',
-          text: 'Down To Earth',
-          value: "Down To Earth"
-        },
-        {
-          key: 'Whole Foods',
-          text: 'Whole Foods',
-          value: "Whole Foods"
-        },
-        {
-          key: 'DTE or Whole Foods',
-          text: 'DTE or Whole Foods',
-          value: "DTE or Whole Foods"
-        }
-      ],
-      mock: mock
-  }
-
   renderError = ({ error, touched }) => {
     if (touched && error) {
       return (
