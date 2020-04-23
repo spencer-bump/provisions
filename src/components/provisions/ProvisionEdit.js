@@ -1,20 +1,30 @@
+import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux'
-import { fetchProvision } from '../../actions';
+import { fetchProvision, editProvision } from '../../actions';
+import ProvisionForm from './ProvisionForm';
 
 class ProvisionEdit extends React.Component {
     // match.params carry wildcards !!!
     componentDidMount() {
       this.props.fetchProvision(this.props.match.params.id)
     }
+
+    onSubmit = (formValues) => {
+      this.props.editProvision(this.props.match.params.id, formValues);
+    }
+
     render () {
-      console.log("props: ", this.props)
       if (!this.props.provision) {
         return <div>Loading...</div>
       } else {
         return (
           <div>
-            <div>Edit Provision: {this.props.provision.name  } </div>
+            <h3>Edit Grocery Item</h3>
+            <ProvisionForm
+              onSubmit={this.onSubmit}
+              initialValues={_.pick(this.props.provision, 'name', 'price')}
+            />
           </div>
         );
       }
@@ -24,11 +34,13 @@ class ProvisionEdit extends React.Component {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  console.log("ownProps: ", ownProps)
   return { provision: state.provisions[ownProps.match.params.id] };
 }
 
 export default connect(
   mapStateToProps,
-  { fetchProvision }
+  {
+    fetchProvision,
+    editProvision
+  }
 )(ProvisionEdit);

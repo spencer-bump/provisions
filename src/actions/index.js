@@ -36,10 +36,13 @@ export const fetchProvision = (id) => async dispatch => {
   dispatch({ type: FETCH_PROVISION, payload: response.data });
 }
 
-export const editProvision = (id, formValues) => async dispatch => {
-  const response = await mockdb.put(`/provisions/${id}`, formValues);
+// With a PUT: all properties of the record are updated
+// With a PATCH: just some of the properties are updated
+export const editProvision = (id, formValues) => async (dispatch, getState) => {
+  const response = await mockdb.patch(`/provisions/${id}`, formValues);
 
   dispatch({ type: EDIT_PROVISION, payload: response.data });
+  history.push('/');
 }
 
 export const deleteProvision = id => async dispatch => {
