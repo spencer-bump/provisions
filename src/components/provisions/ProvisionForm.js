@@ -1,5 +1,6 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
+import { Link } from 'react-router-dom';
 import { Input, Dropdown, Button } from 'semantic-ui-react';
 import './ProvisionCreate.css';
 
@@ -86,8 +87,10 @@ class ProvisionForm extends React.Component {
             label=""
             component={this.renderInput}
           />*/}
-          <Button className="primary my-button">Submit</Button>
-
+          <button className="ui button primary ">Submit</button>
+          <Link to="/" className="ui button basic" >
+            Cancel
+          </Link>
         </form>
       </div>
     );
