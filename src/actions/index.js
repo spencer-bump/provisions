@@ -46,9 +46,10 @@ export const editProvision = (id, formValues) => async (dispatch, getState) => {
 }
 
 export const deleteProvision = id => async dispatch => {
-  await mockdb.delete(`/provision/${id}`);
+  await mockdb.delete(`/provisions/${id}`);
 
   dispatch({ type: DELETE_PROVISION, payload: id })
+  history.push('/');
 }
 
 export const signIn = userId => {

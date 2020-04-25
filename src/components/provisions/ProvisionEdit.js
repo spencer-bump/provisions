@@ -5,7 +5,7 @@ import { fetchProvision, editProvision } from '../../actions';
 import ProvisionForm from './ProvisionForm';
 
 class ProvisionEdit extends React.Component {
-    // match.params carry wildcards !!!
+    // match.params carry url passed variables (:wildcards)
     componentDidMount() {
       this.props.fetchProvision(this.props.match.params.id)
     }
@@ -28,9 +28,7 @@ class ProvisionEdit extends React.Component {
           </div>
         );
       }
-
     }
-
 };
 
 const mapStateToProps = (state, ownProps) => {

@@ -1,10 +1,7 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
-import { Input, Dropdown, Button } from 'semantic-ui-react';
 import './ProvisionCreate.css';
-
-// import mock from '../../data/mock';
 
 class ProvisionForm extends React.Component {
 
