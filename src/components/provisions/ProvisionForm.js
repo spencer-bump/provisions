@@ -57,6 +57,20 @@ class ProvisionForm extends React.Component {
       );
   }
 
+  renderCheckboxInput = ({ input, label }) => {
+    return (
+        <div className="">
+
+          <input
+            {...input}
+            label={label}
+            type="checkbox"
+          />
+          <span className="ui">{label}</span>
+        </div>
+      )
+  }
+
   onSubmit = formValues => {
     this.props.onSubmit(formValues)
   }
@@ -64,7 +78,6 @@ class ProvisionForm extends React.Component {
 
 
   render () {
-    console.log("props: ", this.props)
     return (
       <div className="my-container">
         {/*using redux-form props.handleSubmit - sends fromValues*/}
@@ -79,11 +92,22 @@ class ProvisionForm extends React.Component {
             label="Price"
             component={this.renderPriceInput}
           />
-      {/*    <Field
-            name=""
-            label=""
-            component={this.renderInput}
-          />*/}
+          <Field
+            name="costco"
+            label="Costco"
+            component={this.renderCheckboxInput}
+          />
+          <Field
+            name="down_to_earth"
+            label="Down to Earth"
+            component={this.renderCheckboxInput}
+          />
+          <Field
+            name="whole_foods"
+            label="Whole Foods"
+            component={this.renderCheckboxInput}
+          />
+
           <button className="ui button primary ">Submit</button>
           <Link to="/" className="ui button basic" >
             Cancel

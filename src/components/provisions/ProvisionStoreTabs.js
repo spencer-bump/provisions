@@ -5,26 +5,21 @@ import { fetchProvisions } from '../../actions';
 import ProvisionList from './ProvisionList';
 
 class ProvisionStoreTabs extends React.Component {
-    stores = [{name: "Costco"}, {name: "Down to Earth"}, {name: "Whole Foods"}];
+    stores = [{name: "Costco", key: "costco"}, {name: "Down to Earth", key: "down_to_earth"}, {name: "Whole Foods", key: "whole_foods"}];
 
     panes = this.stores.map(store => {
       return (
           { menuItem: store.name, render: () =>
               <Tab.Pane>
                 <ProvisionList
-                  store={store.name}
-                  provisions={this.props.provisions.filter(provision => provision.userId)}
+                  store={store}
+                  provisions={this.props.provisions.filter(provision => provision.userId && provision[store.key])}
                   currentUserId={this.props.currentUserId}
                   isSignedIn={this.props.isSignedIn} />
               </Tab.Pane>
           }
         )
       });
-
-            // TODO:
-            // 2)  Buttons: Select, To Cart
-            // 3)  View Cart modal, showing list
-            //     at checkout with total price
 
   componentDidMount() {
     this.props.fetchProvisions();

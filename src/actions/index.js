@@ -18,7 +18,9 @@ import {
 
 export const createProvision = formValues => async (dispatch, getState) => {
   const { userId } = getState().auth;
-  const response = await mockdb.post('/provisions', { ...formValues, userId });
+  const isSelected = false;
+  const inCart = false;
+  const response = await mockdb.post('/provisions', { ...formValues, userId, isSelected, inCart });
 
   dispatch({ type: CREATE_PROVISION, payload: response.data });
   history.push('/');

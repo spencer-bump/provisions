@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { editProvision } from '../../actions';
 
 const ProvisionList = ({ store, provisions, currentUserId, isSignedIn }) => {
 
@@ -22,21 +23,51 @@ const ProvisionList = ({ store, provisions, currentUserId, isSignedIn }) => {
     }
   }
 
-  const renderSelect = provision => {
-    console.log("TODO - wire up 'selected'")
+  const renderToBuyListButton = provision => {
     return (
       <div className="left floated content">
-        <button className="ui button">Select</button>
+        <button
+          className="ui button"
+          onClick={() => console.log('to Store List')}
+        >Select</button>
       </div>
     )
   }
 
-  const renderList = () => {
+  const renderToCartButton = provision => {
     return (
-        provisions.map(provision => {
+      <div className="left floated content">
+        <button
+          className="ui button primary"
+          onClick={() => console.log('to Grocery Cart')}>To Cart</button>
+      </div>
+    )
+  }
+
+  const renderAvailableItemsList = () => {
+    return (
+        provisions.filter(provision => !provision.isSelected).map(provision => {
           return (
             <div className="item" key={provision.id} >
-              {renderSelect(provision)}
+              {renderToBuyListButton(provision)}
+              {renderAdmin(provision)}
+              <div className="content">
+                {provision.name}
+                <div className="description">{provision.price}</div>
+              </div>
+
+            </div>
+            )
+        })
+      )
+  }
+
+  const renderSelectedForPurchaseList = () => {
+    return (
+        provisions.filter(provision => provision.isSelected && !provision.inCart).map(provision => {
+          return (
+            <div className="item" key={provision.id} >
+              {renderToCartButton(provision)}
               {renderAdmin(provision)}
               <div className="content">
                 {provision.name}
@@ -65,7 +96,7 @@ const ProvisionList = ({ store, provisions, currentUserId, isSignedIn }) => {
     return (
       <div className="ui secondary pointing menu" >
         <div className="item" >
-          {store}
+          {store.name}
         </div>
         {renderAddProvision()}
       </div>
@@ -76,7 +107,9 @@ const ProvisionList = ({ store, provisions, currentUserId, isSignedIn }) => {
       <div>
         {renderSubHeader()}
         <div className="ui celled list">
-          {renderList()}
+          {renderSelectedForPurchaseList()}
+          {renderAvailableItemsList()}
+
         </div>
       </div>
     )
