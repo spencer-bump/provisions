@@ -1,11 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { editProvision } from '../../actions';
 
-const ProvisionList = ({ store, provisions, currentUserId, isSignedIn }) => {
+class ProvisionList extends React.Component {
 
-  const renderAdmin = (provision) => {
-    if (provision.userId === currentUserId && isSignedIn) {
+  renderAdmin = (provision) => {
+    if (provision.userId === this.props.currentUserId && this.props.isSignedIn) {
       return (
         <div className="right floated content">
           <Link to={`/provision/edit/${provision.id}`} >
@@ -23,34 +24,39 @@ const ProvisionList = ({ store, provisions, currentUserId, isSignedIn }) => {
     }
   }
 
-  const renderToBuyListButton = provision => {
+  renderToBuyListButton = provision => {
     return (
       <div className="left floated content">
         <button
           className="ui button"
-          onClick={() => console.log('to Store List')}
-        >Select</button>
+          onClick={() => this.props.editProvision(provision.id, { isSelected: true } )}
+        >
+          <i className="list ul icon"></i>
+        </button>
       </div>
     )
   }
 
-  const renderToCartButton = provision => {
+  renderToCartButton = provision => {
     return (
       <div className="left floated content">
         <button
           className="ui button primary"
-          onClick={() => console.log('to Grocery Cart')}>To Cart</button>
+          onClick={() => this.props.editProvision(provision.id, { isSelected: false } )}
+        >
+        <i className="shopping cart icon"></i>
+        </button>
       </div>
     )
   }
 
-  const renderAvailableItemsList = () => {
+  renderAvailableItemsList = () => {
     return (
-        provisions.filter(provision => !provision.isSelected).map(provision => {
+        this.props.provisions.filter(provision => !provision.isSelected).map(provision => {
           return (
             <div className="item" key={provision.id} >
-              {renderToBuyListButton(provision)}
-              {renderAdmin(provision)}
+              {this.renderToBuyListButton(provision)}
+              {this.renderAdmin(provision)}
               <div className="content">
                 {provision.name}
                 <div className="description">{provision.price}</div>
@@ -62,13 +68,13 @@ const ProvisionList = ({ store, provisions, currentUserId, isSignedIn }) => {
       )
   }
 
-  const renderSelectedForPurchaseList = () => {
+  renderSelectedForPurchaseList = () => {
     return (
-        provisions.filter(provision => provision.isSelected && !provision.inCart).map(provision => {
+        this.props.provisions.filter(provision => provision.isSelected && !provision.inCart).map(provision => {
           return (
             <div className="item" key={provision.id} >
-              {renderToCartButton(provision)}
-              {renderAdmin(provision)}
+              {this.renderToCartButton(provision)}
+              {this.renderAdmin(provision)}
               <div className="content">
                 {provision.name}
                 <div className="description">{provision.price}</div>
@@ -80,8 +86,8 @@ const ProvisionList = ({ store, provisions, currentUserId, isSignedIn }) => {
       )
   }
 
-  const renderAddProvision = () => {
-    if (isSignedIn) {
+  renderAddProvision = () => {
+    if (this.props.isSignedIn) {
       return (
         <div className="right menu">
           <Link to="/provision/new" className="ui button small basic" >
@@ -92,27 +98,33 @@ const ProvisionList = ({ store, provisions, currentUserId, isSignedIn }) => {
     }
   }
 
-  const renderSubHeader = () => {
+  renderSubHeader = () => {
     return (
       <div className="ui secondary pointing menu" >
         <div className="item" >
-          {store.name}
+          {this.props.store.name}
         </div>
-        {renderAddProvision()}
+        {this.renderAddProvision()}
       </div>
     );
   }
 
-  return (
-      <div>
-        {renderSubHeader()}
-        <div className="ui celled list">
-          {renderSelectedForPurchaseList()}
-          {renderAvailableItemsList()}
 
+  render() {
+    return (
+        <div>
+          {this.renderSubHeader()}
+          <div className="ui celled list">
+            {this.renderSelectedForPurchaseList()}
+            {this.renderAvailableItemsList()}
+
+          </div>
         </div>
-      </div>
-    )
+      )
+  }
 }
 
-export default ProvisionList;
+export default connect(
+  null,
+  { editProvision }
+  )(ProvisionList);
