@@ -42,7 +42,7 @@ class ProvisionList extends React.Component {
       <div className="left floated content">
         <button
           className="ui button primary"
-          onClick={() => this.props.editProvision(provision.id, { isSelected: false } )}
+          onClick={() => this.props.editProvision(provision.id, { inCart: true } )}
         >
         <i className="shopping cart icon"></i>
         </button>
@@ -59,7 +59,7 @@ class ProvisionList extends React.Component {
               {this.renderAdmin(provision)}
               <div className="content">
                 {provision.name}
-                <div className="description">{provision.price}</div>
+                <div className="description">${Number.parseFloat(provision.price).toFixed(2)}</div>
               </div>
 
             </div>
@@ -77,7 +77,7 @@ class ProvisionList extends React.Component {
               {this.renderAdmin(provision)}
               <div className="content">
                 {provision.name}
-                <div className="description">{provision.price}</div>
+                <div className="description">${Number.parseFloat(provision.price).toFixed(2)}</div>
               </div>
 
             </div>
@@ -92,6 +92,9 @@ class ProvisionList extends React.Component {
         <div className="right menu">
           <Link to="/provision/new" className="ui button small basic" >
             Add Item
+          </Link>
+          <Link to="/provision/cart" className="ui button small" >
+            <i className="shopping cart icon"></i>
           </Link>
         </div>
       );

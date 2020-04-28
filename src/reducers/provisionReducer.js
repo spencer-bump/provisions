@@ -4,7 +4,8 @@ import {
   FETCH_PROVISIONS,
   FETCH_PROVISION,
   DELETE_PROVISION,
-  EDIT_PROVISION
+  EDIT_PROVISION,
+  CART_TOTAL
    } from '../actions/types';
 
 // each case returns a new state object
@@ -20,6 +21,8 @@ export default (state= {}, action) => {
       return { ...state, [action.payload.id]: action.payload };
     case DELETE_PROVISION:
       return _.omit(state, action.payload);
+    case CART_TOTAL:
+      return { ...state, cartTotal: action.payload };
     default:
       return state;
   }

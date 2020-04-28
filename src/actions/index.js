@@ -7,7 +7,8 @@ import {
     DELETE_PROVISION,
     EDIT_PROVISION,
     SIGN_IN,
-    SIGN_OUT
+    SIGN_OUT,
+    CART_TOTAL
   } from './types';
 
 // long hand form of the following short hand...
@@ -65,4 +66,17 @@ export const signOut = () => {
   return {
     type: SIGN_OUT
   };
+}
+
+export const getCartTotal = () => async dispatch => {
+  const response = await mockdb.get('/provisions'),
+        provisions = response.data;
+  let total = 0;
+  for (let i = 0, length = provisions.length; i < length; i++) {
+    if(provisions[i].inCart) {
+      total += parseFloat(provisions[i].price);
+    }
+  }
+  console.log("dispatch total: ", total.toFixed(2))
+  dispatch({ type: CART_TOTAL, payload: total.toFixed(2) });
 }

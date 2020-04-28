@@ -5,6 +5,7 @@ import ProvisionCreate    from './provisions/ProvisionCreate';
 import ProvisionStoreTabs from './provisions/ProvisionStoreTabs';
 import ProvisionEdit      from './provisions/ProvisionEdit';
 import ProvisionDelete    from './provisions/ProvisionDelete';
+import ProvisionCart      from './provisions/ProvisionCart';
 
 import Header from './Header';
 import history from '../history';
@@ -38,6 +39,9 @@ const App = () => {
             <Route
               path="/provision/delete/:id"
               component={ProvisionDelete} />
+            <Route
+              path="/provision/cart"
+              component={ProvisionCart} />
           </Switch>
         </div>
       </Router>

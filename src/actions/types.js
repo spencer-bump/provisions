@@ -3,6 +3,7 @@ export const FETCH_PROVISIONS = 'FETCH_PROVISIONS';
 export const FETCH_PROVISION  = 'FETCH_PROVISION'
 export const DELETE_PROVISION = 'DELETE_PROVISION';
 export const EDIT_PROVISION   = 'EDIT_PROVISION';
+export const CART_TOTAL = 'CART_TOTAL';
 
 export const SIGN_IN = 'SIGN_IN';
 export const SIGN_OUT = 'SIGN_OUT';

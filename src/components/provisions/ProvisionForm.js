@@ -1,7 +1,7 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
-import './ProvisionCreate.css';
+import './Provision.css';
 
 class ProvisionForm extends React.Component {
 
@@ -109,7 +109,7 @@ class ProvisionForm extends React.Component {
           />
 
           <button className="ui button primary ">Submit</button>
-          <Link to="/" className="ui button basic" >
+          <Link to="/" className="ui button" >
             Cancel
           </Link>
         </form>
